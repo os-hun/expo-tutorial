@@ -7,7 +7,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function HomeScreen() {
-  const { signIn } = useAuth()
+  const { signIn, session, csrfToken } = useAuth()
 
   return (
     <ParallaxScrollView
@@ -24,6 +24,8 @@ export default function HomeScreen() {
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <Button title="Open URL" onPress={signIn} />
+        <ThemedText type="defaultSemiBold">session: {session}</ThemedText>
+        <ThemedText type="defaultSemiBold">csrfToken: {csrfToken}</ThemedText>
       </ThemedView>
     </ParallaxScrollView>
   );
