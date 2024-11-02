@@ -1,10 +1,9 @@
 import * as WebBrowser from 'expo-web-browser'
 import * as Linking from 'expo-linking'
-import { useState } from 'react'
+import { useSecureStore } from './useSecureStore'
 
 export const useAuth = () => {
-  const [session, setSession] = useState<string | null>(null)
-  const [csrfToken, setCsrfToken] = useState<string | null>(null)
+  const { save } = useSecureStore()
   
   const baseUrl = 'http://localhost:5173'
   const redirectUrl = Linking.createURL('/')
@@ -13,7 +12,6 @@ export const useAuth = () => {
     const result = await WebBrowser.openAuthSessionAsync(
       `${baseUrl}/auth/login?from=native&redirectUrl=${redirectUrl}`
     )
-    console.log(result)
 
     if (result.type === 'success') {
       const url = new URL(result.url)
@@ -23,15 +21,13 @@ export const useAuth = () => {
       const csrfToken = params.get('csrfToken')
 
       if (session && csrfToken) {
-        setSession(session)
-        setCsrfToken(csrfToken)
+        await save('session', session)
+        await save('csrfToken', csrfToken)
       }
     }
   }
 
   return {
     signIn,
-    session,
-    csrfToken,
   }
 }

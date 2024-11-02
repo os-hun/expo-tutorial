@@ -5,9 +5,14 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useAuth } from '@/hooks/useAuth';
+import { useSecureStore } from '@/hooks/useSecureStore';
 
 export default function HomeScreen() {
-  const { signIn, session, csrfToken } = useAuth()
+  const { signIn } = useAuth()
+  const { get } = useSecureStore()
+
+  const session = get('session')
+  const csrfToken = get('csrfToken')
 
   return (
     <ParallaxScrollView
