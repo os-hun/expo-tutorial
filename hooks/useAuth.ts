@@ -10,7 +10,9 @@ export const useAuth = () => {
   const redirectUrl = Linking.createURL('/')
 
   const signIn = async () => {
-    const result = await WebBrowser.openAuthSessionAsync(`${baseUrl}/callback?from=native&redirectUrl=${redirectUrl}`)
+    const result = await WebBrowser.openAuthSessionAsync(
+      `${baseUrl}/auth/login?from=native&redirectUrl=${redirectUrl}`
+    )
     console.log(result)
 
     if (result.type === 'success') {
